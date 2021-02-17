@@ -1,4 +1,6 @@
-from merkle import MerkleTree
+# from merkle import MerkleTree
+from merkle2 import MerkleTree
+from mmr import MerkleMountainRange
 from nacl.encoding import RawEncoder
 from nacl.hash import sha256
 from binascii import hexlify
@@ -20,14 +22,21 @@ from random import randint
     CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 '''
 
-messages = [b'hello world', b'world hello', b'BTC', b'ETH', b'XLM', b'RawEncoder', b'encoder', b'sha256']
+messages = [b'hello world', b'world hello', b'BTC', b'ETH', b'XLM', b'RawEncoder', b'encoder', b'sha256', b'walrus']
 # messages = messages[0:-1]
 # messages = messages[0:-4]
+messages = messages[0:-2]
 # messages = messages[0:-randint(1, 5)]
 leaves = [sha256(messages[i], encoder=RawEncoder) for i in range(len(messages))]
 
 print("Messages: ", messages)
 print()
+
+print("MerkleMountainRange:")
+m = MerkleMountainRange.from_leaves(leaves)
+m.print_hex()
+print()
+exit()
 
 print("MerkleTree:")
 m = MerkleTree.from_leaves(leaves) # base=2
